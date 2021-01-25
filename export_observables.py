@@ -17,7 +17,7 @@ query = {}
 
 def main():
     api = TheHiveApi(url, api_key)
-    cases = api.find_cases(query=None, sort=["-createdAt"], range="all")
+    cases = api.find_cases(range="all")
     cases = cases.json()
 
     workbook = xlsxwriter.Workbook(excel_path)
@@ -35,7 +35,8 @@ def main():
 
     row = 1
     for item in cases:
-        worksheet.write(row, 0, item["id"])
+        item_id = item["id"] if "id" in item.keys() else item["_id"]
+        worksheet.write(row, 0, item_id)
         worksheet.write(row, 1, item["caseId"])
         worksheet.write(row, 2, item["status"])
         worksheet.write(row, 3, item["title"])
@@ -59,8 +60,9 @@ def main():
     worksheet2.write("D1", "IOC")
     row = 1
     for item in cases:
+        item_id = item["id"] if "id" in item.keys() else item["_id"]
         obs = api.get_case_observables(
-            item["id"], query=query, sort=["-startDate", "+ioc"], range="all"
+            item_id, query=query, sort=["-startDate", "+ioc"], range="all"
         )
         obs = obs.json()
         for ob in obs:
