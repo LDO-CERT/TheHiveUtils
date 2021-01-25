@@ -20,7 +20,7 @@ def main():
     cases = api.find_cases(range="all")
     cases = cases.json()
 
-    workbook = xlsxwriter.Workbook(excel_path)
+    workbook = xlsxwriter.Workbook(excel_path, {'strings_to_urls': False})
     worksheet = workbook.add_worksheet()
 
     bold = workbook.add_format({"bold": True})
