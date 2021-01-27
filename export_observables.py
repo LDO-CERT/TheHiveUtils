@@ -80,4 +80,5 @@ def main():
 if __name__ == "__main__":
     print("[INFO] Starting the script...")
     main()
+    print("[INFO] No errors found. Output file generated successfully")
     print("[INFO] Program terminated. Exiting...")
